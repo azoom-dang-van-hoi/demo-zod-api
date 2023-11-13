@@ -1,6 +1,6 @@
 {
   "name": "demo-zod-api",
-  "version": "1.0.0",
+  "version": "0.0.6",
   "main": "index.js",
   "repository": "git@github.com:azoom-dang-van-hoi/demo-zod-api.git",
   "author": "azoom-dang-van-hoi <dang.van.hoi@azoom.jp>",
@@ -15,12 +15,15 @@
     "start": "env $(grep -v '^#' .env) node --experimental-specifier-resolution=node --experimental-modules --experimental-json-modules --loader ./node_modules/@azoom/node-util/module-alias/loader.js index.js",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
     "staging:clean": "git fetch origin --prune 'refs/tags/*:refs/tags/*' && git push origin --delete $(git tag -l 'staging-*') || true && git fetch origin --prune 'refs/tags/*:refs/tags/*'",
-    "staging:deploy": "yarn staging:clean && TAG=`echo staging-$(date +%Y%m%d-%H%M%S)` && git tag $TAG && git push origin $TAG"
+    "staging:deploy": "yarn staging:clean && TAG=`echo staging-$(date +%Y%m%d-%H%M%S)` && git tag $TAG && git push origin $TAG",
+    "lib:build": "node scripts/build-lib.js",
+    "lib:publish": "cd dist && npm publish"
   },
   "dependencies": {
     "@azoom/nnn-router": "1.0.1",
     "@azoom/node-util": "^1.1.1",
     "@prisma/client": "^3.11.1",
+    "@zodios/core": "^10.9.6",
     "cors": "^2.8.5",
     "date-fns": "^2.28.0",
     "express": "^4.17.3",
@@ -31,7 +34,8 @@
     "module-alias": "^2.2.2",
     "node-mocks-http": "^1.11.0",
     "statuses": "^2.0.1",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
