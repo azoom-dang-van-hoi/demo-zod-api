@@ -19,15 +19,13 @@ const organization = z.object({
   email: z.string().email(),
 })
 
-const user = z.object({
+export const user = z.object({
   id: z.number(),
   name: z.string().min(4).max(128),
   age: z.coerce.number().positive(),
   email: z.string().email(),
   organization: organization.pick({ id: true }),
 })
-
-user.shape.organization.shape.id
 
 export const apiClient = makeApi([
   {

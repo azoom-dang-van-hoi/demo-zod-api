@@ -1,6 +1,6 @@
 {
   "name": "demo-zod-api",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "index.js",
   "repository": "git@github.com:azoom-dang-van-hoi/demo-zod-api.git",
   "author": "azoom-dang-van-hoi <dang.van.hoi@azoom.jp>",
@@ -21,19 +21,25 @@
   },
   "dependencies": {
     "@azoom/nnn-router": "1.0.1",
+    "@azoom/api-definition-util": "^0.1.8",
     "@azoom/node-util": "^1.1.1",
-    "@prisma/client": "^3.11.1",
+    "@prisma/client": "^5.1.1",
     "@zodios/core": "^10.9.6",
+    "@zodios/express": "^10.6.1",
+    "@zodios/openapi": "^10.5.0",
+    "axios": "^1.6.1",
     "cors": "^2.8.5",
     "date-fns": "^2.28.0",
     "express": "^4.17.3",
     "express-openapi-validator": "^4.13.7",
     "express-promise-router": "^4.1.1",
+    "glob": "^10.3.10",
     "got": "^12.0.3",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.2",
     "node-mocks-http": "^1.11.0",
     "statuses": "^2.0.1",
+    "swagger-ui-express": "^5.0.0",
     "uuid": "^8.3.2",
     "zod": "^3.22.4"
   },
@@ -41,12 +47,17 @@
     "@babel/core": "^7.21.8",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/preset-env": "^7.21.5",
+    "@quramy/prisma-fabbrica": "^2.0.1",
+    "@types/node": "^18.14.6",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.15",
-    "prettier": "^2.6.1"
+    "prettier": "^2.6.1",
+    "prisma": "^5.1.1",
+    "typescript": "^5.2.2",
+    "zod-prisma-types": "phongnd39/zod-prisma-types#79bbef06737c379946cb5240ab0be59182fa2d2c"
   },
   "_moduleAliases": {
     "@root": "./",
@@ -57,10 +68,10 @@
     "@services": "./services/"
   },
   "volta": {
-    "node": "14.18.0",
+    "node": "18.18.2",
     "yarn": "1.22.19"
   },
   "engines": {
-    "node": "14"
+    "node": "18"
   }
 }
