@@ -23,7 +23,7 @@
     "@azoom/nnn-router": "1.0.1",
     "@azoom/api-definition-util": "^0.1.8",
     "@azoom/node-util": "^1.1.1",
-    "@prisma/client": "^5.1.1",
+    "@prisma/client": "^3.11.1",
     "@zodios/core": "^10.9.6",
     "@zodios/express": "^10.6.1",
     "@zodios/openapi": "^10.5.0",
@@ -55,8 +55,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.15",
     "prettier": "^2.6.1",
-    "prisma": "^5.1.1",
     "typescript": "^5.2.2",
+    "prisma": "^3.11.1",
     "zod-prisma-types": "phongnd39/zod-prisma-types#79bbef06737c379946cb5240ab0be59182fa2d2c"
   },
   "_moduleAliases": {

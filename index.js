@@ -32,18 +32,14 @@ app.use(
   express.text({ limit: "10mb" })
 )
 app.use(
-  // OpenApiValidator.middleware({
-  //   apiSpec: './reference/openapi.yaml',
-  //   validateRequests: {
-  //     removeAdditional: 'all',
-  //     coerceTypes: true,
-  //   },
-  //   validateResponses: true,
-  // }),
   nnnRouter({
     routeDir: "/routes",
     baseRouter: zodiosRouter(apis, { transform: true }),
-  })
+  }),
+  (error, req, res, next) => {
+    console.error(error)
+    return res.sendStatus(500)
+  }
 )
 
 const document = openApiBuilder({
