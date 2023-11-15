@@ -4,7 +4,7 @@ import { zodiosApp, zodiosRouter } from "@zodios/express"
 import { generateApis } from "./scripts/generate-api"
 import { openApiBuilder } from "@zodios/openapi"
 import promiseRouter from "express-promise-router"
-import nnnRouter from "@azoom/nnn-router"
+import nnnRouter from './nnn-router'
 import cors from "cors"
 import statuses from "statuses"
 

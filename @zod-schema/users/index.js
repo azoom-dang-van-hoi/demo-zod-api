@@ -9,7 +9,9 @@ export const CreateUserSchemaBody = UserSchema.omit({
   z.object({
     organizationId: z.coerce.number().positive(),
     age: z.coerce
-      .number({ message: "Age must be number" })
+      .number({
+        invalid_type_error: "Age is not a number",
+      })
       .positive({ message: "Age must be greater 0" }),
   })
 )
