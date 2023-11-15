@@ -1,21 +1,17 @@
-import { UserSchema, OrganizationSchema } from "@root/dist/demo/schemas"
+import { UserDetailResponseSchema } from "@zod-schema"
 import z from "zod"
 export const apiDefinition = {
   alias: "getUser",
-  description: "get list accounts of organization",
+  description: "Get user detail",
   parameters: [
     {
-      name: "userId",
+      name: "id",
       type: "Path",
       description: "User Id",
       schema: z.coerce.number().positive(),
     },
   ],
-  response: UserSchema.merge(
-    z.object({
-      organization: OrganizationSchema,
-    })
-  ),
+  response: UserDetailResponseSchema,
   errorStatuses: [400, 403, 404, 500],
 }
 export default (req, res) => {

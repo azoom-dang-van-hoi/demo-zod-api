@@ -1,4 +1,4 @@
-import { UserSchema } from "@root/dist/demo/schemas"
+import { UserSchema, CreateUserSchemaBody } from "@zod-schema"
 export const apiDefinition = {
   alias: "createUser",
   description: "Create user",
@@ -7,11 +7,7 @@ export const apiDefinition = {
       name: "user",
       type: "Body",
       description: "User infor",
-      schema: UserSchema.omit({
-        id: true,
-        createdDatetime: true,
-        updatedDatetime: true,
-      }),
+      schema: CreateUserSchemaBody,
     },
   ],
   response: UserSchema,

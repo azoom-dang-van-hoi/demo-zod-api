@@ -1,6 +1,6 @@
 {
   "name": "demo-zod-api",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "main": "index.js",
   "repository": "git@github.com:azoom-dang-van-hoi/demo-zod-api.git",
   "author": "azoom-dang-van-hoi <dang.van.hoi@azoom.jp>",
@@ -9,14 +9,14 @@
   "scripts": {
     "setup:mock-data": "for filename in `ls mock/*.template`; do cp $filename `echo $filename | sed 's/.template//g'`; done",
     "dcc": "docker-compose -f cicd/local/docker-compose.yaml",
-    "prisma:migrate": "prisma migrate dev --schema=./node_modules/@azoom/carparking-one-db/prisma/schema.prisma",
-    "prisma:generate": "prisma generate --schema=./node_modules/@azoom/carparking-one-db/prisma/schema.prisma",
-    "dev": "env $(grep -v '^#' .env) nodemon index.js --exec 'node --experimental-specifier-resolution=node --experimental-modules --experimental-json-modules --loader ./node_modules/@azoom/node-util/module-alias/loader.js'",
+    "prisma:migrate": "prisma migrate dev && tsc",
+    "prisma:generate": "prisma migrate dev && tsc",
+    "dev": "env $(grep -v '^#' .env) nodemon --experimental-specifier-resolution=node --experimental-modules --experimental-json-modules --loader ./node_modules/@azoom/node-util/module-alias/loader.js index.js",
     "start": "env $(grep -v '^#' .env) node --experimental-specifier-resolution=node --experimental-modules --experimental-json-modules --loader ./node_modules/@azoom/node-util/module-alias/loader.js index.js",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
     "staging:clean": "git fetch origin --prune 'refs/tags/*:refs/tags/*' && git push origin --delete $(git tag -l 'staging-*') || true && git fetch origin --prune 'refs/tags/*:refs/tags/*'",
     "staging:deploy": "yarn staging:clean && TAG=`echo staging-$(date +%Y%m%d-%H%M%S)` && git tag $TAG && git push origin $TAG",
-    "lib:build": "node scripts/build-lib.js",
+    "lib:build": "env $(grep -v '^#' .env) node --experimental-specifier-resolution=node --experimental-loader ./node_modules/@azoom/node-util/module-alias/loader.js ./scripts/build-lib.js",
     "lib:publish": "cd dist && npm publish"
   },
   "dependencies": {
@@ -65,7 +65,8 @@
     "@middleware": "./middleware/",
     "@helpers": "./helpers/",
     "@endpoints": "./endpoints/",
-    "@services": "./services/"
+    "@services": "./services/",
+    "@zod-schema": "./@zod-schema/"
   },
   "volta": {
     "node": "18.18.2",
