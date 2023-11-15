@@ -8,6 +8,7 @@
       "@endpoints/*": ["./endpoints/*"],
       "@services/*": ["./services/*"],
       "@templates/*": ["./templates/*"],
+      "@zod-schema/*": ["./@zod-schema/*"],
       "@root/*": ["./*"]
     }
   },
