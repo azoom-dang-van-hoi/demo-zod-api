@@ -1,6 +1,6 @@
 {
   "name": "demo-zod-api",
-  "version": "1.0.0",
+  "version": "0.0.11",
   "main": "index.js",
   "repository": "git@github.com:azoom-dang-van-hoi/demo-zod-api.git",
   "author": "azoom-dang-van-hoi <dang.van.hoi@azoom.jp>",
@@ -9,40 +9,55 @@
   "scripts": {
     "setup:mock-data": "for filename in `ls mock/*.template`; do cp $filename `echo $filename | sed 's/.template//g'`; done",
     "dcc": "docker-compose -f cicd/local/docker-compose.yaml",
-    "prisma:migrate": "prisma migrate dev --schema=./node_modules/@azoom/carparking-one-db/prisma/schema.prisma",
-    "prisma:generate": "prisma generate --schema=./node_modules/@azoom/carparking-one-db/prisma/schema.prisma",
-    "dev": "env $(grep -v '^#' .env) nodemon index.js --exec 'node --experimental-specifier-resolution=node --experimental-modules --experimental-json-modules --loader ./node_modules/@azoom/node-util/module-alias/loader.js'",
+    "prisma:migrate": "prisma migrate dev && tsc",
+    "prisma:generate": "prisma migrate dev && tsc",
+    "dev": "env $(grep -v '^#' .env) nodemon --experimental-specifier-resolution=node --experimental-modules --experimental-json-modules --loader ./node_modules/@azoom/node-util/module-alias/loader.js index.js",
     "start": "env $(grep -v '^#' .env) node --experimental-specifier-resolution=node --experimental-modules --experimental-json-modules --loader ./node_modules/@azoom/node-util/module-alias/loader.js index.js",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
     "staging:clean": "git fetch origin --prune 'refs/tags/*:refs/tags/*' && git push origin --delete $(git tag -l 'staging-*') || true && git fetch origin --prune 'refs/tags/*:refs/tags/*'",
-    "staging:deploy": "yarn staging:clean && TAG=`echo staging-$(date +%Y%m%d-%H%M%S)` && git tag $TAG && git push origin $TAG"
+    "staging:deploy": "yarn staging:clean && TAG=`echo staging-$(date +%Y%m%d-%H%M%S)` && git tag $TAG && git push origin $TAG",
+    "lib:build": "env $(grep -v '^#' .env) node --experimental-specifier-resolution=node --experimental-loader ./node_modules/@azoom/node-util/module-alias/loader.js ./scripts/build-lib.js",
+    "lib:publish": "cd dist && npm publish"
   },
   "dependencies": {
+    "@azoom/api-definition-util": "^0.1.8",
     "@azoom/nnn-router": "1.0.1",
     "@azoom/node-util": "^1.1.1",
     "@prisma/client": "^3.11.1",
+    "@zodios/core": "^10.9.6",
+    "@zodios/express": "^10.6.1",
+    "@zodios/openapi": "^10.5.0",
+    "axios": "^1.6.1",
     "cors": "^2.8.5",
     "date-fns": "^2.28.0",
     "express": "^4.17.3",
     "express-openapi-validator": "^4.13.7",
     "express-promise-router": "^4.1.1",
+    "glob": "^10.3.10",
     "got": "^12.0.3",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.2",
     "node-mocks-http": "^1.11.0",
     "statuses": "^2.0.1",
-    "uuid": "^8.3.2"
+    "swagger-ui-express": "^5.0.0",
+    "uuid": "^8.3.2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/preset-env": "^7.21.5",
+    "@quramy/prisma-fabbrica": "^2.0.1",
+    "@types/node": "^18.14.6",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.15",
-    "prettier": "^2.6.1"
+    "prettier": "^2.6.1",
+    "prisma": "^3.11.1",
+    "typescript": "^5.2.2",
+    "zod-prisma-types": "phongnd39/zod-prisma-types#79bbef06737c379946cb5240ab0be59182fa2d2c"
   },
   "_moduleAliases": {
     "@root": "./",
@@ -50,13 +65,14 @@
     "@middleware": "./middleware/",
     "@helpers": "./helpers/",
     "@endpoints": "./endpoints/",
-    "@services": "./services/"
+    "@services": "./services/",
+    "@zod-schema": "./@zod-schema/"
   },
   "volta": {
-    "node": "14.18.0",
+    "node": "18.18.2",
     "yarn": "1.22.19"
   },
   "engines": {
-    "node": "14"
+    "node": "18"
   }
 }

@@ -1,0 +1,46 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["interactiveTransactions"]
+}
+
+generator zod {
+    provider                         = "zod-prisma-types"
+    output                           = "../dist/demo/schemas"
+    useMultipleFiles                 = false
+    createInputTypes                 = false
+    createModelTypes                 = true
+    addInputTypeValidation           = true
+    addIncludeType                   = false
+    addSelectType                    = false
+    createOptionalDefaultValuesTypes = true
+    createRelationValuesTypes        = true
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model Organization {
+    id              Int      @id @default(autoincrement())
+    name            String   @db.VarChar(14) /// @zod.string({ required_error: "紹介文を入力してください。" }).min(1, { message: "紹介文を入力してください。" }).max(100, { message: "100文字以内で入力してください。" })
+    email           String?  @map("mail_address") @db.VarChar(256) /// @zod.string.email({ message: "メールアドレスを正しい形式で入力してください。" }).max(256, { message: "256文字以内で入力してください。" })
+    createdDatetime DateTime @default(now()) @map("created_datetime")
+    updatedDatetime DateTime @default(now()) @updatedAt @map("updated_datetime")
+    User            User[]
+
+    @@map("organizations")
+}
+
+model User {
+    id              Int          @id @default(autoincrement())
+    age             Int 
+    name            String       @db.VarChar(14) /// @zod.string({ required_error: "紹介文を入力してください。" }).min(1, { message: "紹介文を入力してください。" }).max(100, { message: "100文字以内で入力してください。" })
+    email           String?      @map("mail_address") @db.VarChar(256) /// @zod.string.email({ message: "メールアドレスを正しい形式で入力してください。" }).max(256, { message: "256文字以内で入力してください。" })
+    createdDatetime DateTime     @default(now()) @map("created_datetime")
+    updatedDatetime DateTime     @default(now()) @updatedAt @map("updated_datetime")
+    organizationId  Int
+    organization    Organization @relation(fields: [organizationId], references: [id])
+
+    @@map("users")
+}
