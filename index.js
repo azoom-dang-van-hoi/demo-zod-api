@@ -4,7 +4,7 @@ import { zodiosApp, zodiosRouter } from "@zodios/express"
 import { generateApis } from "./scripts/generate-api"
 import { openApiBuilder } from "@zodios/openapi"
 import promiseRouter from "express-promise-router"
-import nnnRouter from "@azoom/nnn-router"
+import nnnRouter from './nnn-router'
 import cors from "cors"
 import statuses from "statuses"
 
@@ -32,18 +32,14 @@ app.use(
   express.text({ limit: "10mb" })
 )
 app.use(
-  // OpenApiValidator.middleware({
-  //   apiSpec: './reference/openapi.yaml',
-  //   validateRequests: {
-  //     removeAdditional: 'all',
-  //     coerceTypes: true,
-  //   },
-  //   validateResponses: true,
-  // }),
   nnnRouter({
     routeDir: "/routes",
     baseRouter: zodiosRouter(apis, { transform: true }),
-  })
+  }),
+  (error, req, res, next) => {
+    console.error(error)
+    return res.sendStatus(500)
+  }
 )
 
 const document = openApiBuilder({

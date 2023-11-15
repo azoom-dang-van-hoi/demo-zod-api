@@ -1,3 +1,4 @@
+import { prisma } from "@root/database"
 import { UserSchema, CreateUserSchemaBody } from "@zod-schema"
 export const apiDefinition = {
   alias: "createUser",
@@ -14,9 +15,8 @@ export const apiDefinition = {
   errorStatuses: [400, 403, 404, 500],
 }
 
-export default (req, res) => {
-  return res.send({
-    id: Math.floor(Math.random() * 1000000),
-    ...req.body,
-  })
+export default async (req, res) => {
+  console.log(req.body)
+  const createdUser = await prisma.user.create({ data: req.body })
+  return res.send(createdUser)
 }
